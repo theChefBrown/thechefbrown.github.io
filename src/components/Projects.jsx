@@ -1,7 +1,26 @@
 import { motion } from 'framer-motion'
-import { ExternalLink, Github, Zap, BarChart2, Sliders, Car } from 'lucide-react'
+import { ExternalLink, Github, Zap, BarChart2, Sliders, Car, TrendingUp, CalendarDays, Package, PieChart } from 'lucide-react'
 
 const projects = [
+  {
+    title: 'Ambisun Analytics',
+    subtitle: 'Full-Stack Business Intelligence Dashboard',
+    description:
+      'A custom internal analytics platform built end-to-end for Ambisun, replacing manual spreadsheet tracking with a real-time business intelligence suite. The app centralises order management, product performance data, and sales analytics — giving the team a single source of truth for operational decisions.',
+    tags: ['Next.js', 'React', 'Supabase', 'Vercel', 'Tailwind CSS', 'Recharts', 'PostgreSQL'],
+    liveUrl: 'https://ambisun-intern.vercel.app/',
+    gradient: 'from-purple-500 to-pink-500',
+    borderColor: 'border-purple-500/25',
+    glowColor: 'rgba(139,92,246,0.12)',
+    features: [
+      { icon: TrendingUp,   text: 'KPI dashboard: total orders, products sold, and period-over-period trends' },
+      { icon: BarChart2,    text: 'Order timeline and product performance charts with date range filtering' },
+      { icon: PieChart,     text: 'Product mix breakdown across pergola, glass, carport, and screen systems' },
+      { icon: CalendarDays, text: 'Calendar view, order management, and analytics pages' },
+    ],
+    status: 'Live',
+    statusColor: 'bg-emerald-400',
+  },
   {
     title: 'EonDrive',
     subtitle: 'EV Range Comparison & Calculator',
@@ -106,15 +125,17 @@ export default function Projects() {
                       <ExternalLink size={14} />
                       Live Demo
                     </a>
-                    <a
-                      href={project.githubUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold border border-white/10 hover:border-white/25 text-slate-300 hover:text-white transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
-                    >
-                      <Github size={14} />
-                      Source Code
-                    </a>
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold border border-white/10 hover:border-white/25 text-slate-300 hover:text-white transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
+                      >
+                        <Github size={14} />
+                        Source Code
+                      </a>
+                    )}
                   </div>
                 </div>
 
