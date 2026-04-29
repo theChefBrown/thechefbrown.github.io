@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { Github, Instagram, Facebook, Twitter, Linkedin, Heart } from 'lucide-react'
+import { Github, Facebook, Twitter, Linkedin, Heart } from 'lucide-react'
 
 const quickLinks = [
   { name: 'Home',           href: '#home'           },
@@ -14,7 +14,6 @@ const quickLinks = [
 const socials = [
   { icon: Github,    href: 'https://github.com/theChefBrown',                                label: 'GitHub'    },
   { icon: Linkedin,  href: 'https://www.linkedin.com/in/szakacs-barna-467018244',            label: 'LinkedIn'  },
-  { icon: Instagram, href: 'https://www.instagram.com/barni_szaky/',                         label: 'Instagram' },
   { icon: Facebook,  href: 'https://www.facebook.com/barni.szakacs',    label: 'Facebook'  },
   { icon: Twitter,   href: 'https://twitter.com/ChefBrown10',           label: 'Twitter'   },
 ]
@@ -76,7 +75,7 @@ export default function Footer() {
             </div>
 
             <div className="mt-6 space-y-1">
-              <p className="text-slate-500 text-xs">barni_szakacs@yahoo.com</p>
+              <p className="text-slate-500 text-xs">szakacs.barna.dev@gmail.com</p>
               <p className="text-slate-500 text-xs">Brașov, Romania</p>
             </div>
           </div>

@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
-import { Mail, Phone, Instagram, Linkedin, Send, CheckCircle2 } from 'lucide-react'
+import { Mail, Linkedin, Send, CheckCircle2 } from 'lucide-react'
 
 const contactDetails = [
   {
@@ -12,14 +12,6 @@ const contactDetails = [
     border: 'border-purple-500/20',
   },
   {
-    icon: Phone,
-    iconColor: 'text-cyan-400',
-    label: 'Phone',
-    value: '+40 743 064 917',
-    href: 'tel:+40743064917',
-    border: 'border-cyan-500/20',
-  },
-  {
     icon: Linkedin,
     iconColor: 'text-blue-400',
     label: 'LinkedIn',
@@ -28,15 +20,7 @@ const contactDetails = [
     external: true,
     border: 'border-blue-500/20',
   },
-  {
-    icon: Instagram,
-    iconColor: 'text-pink-400',
-    label: 'Instagram',
-    value: '@barni_szaky',
-    href: 'https://www.instagram.com/barni_szaky/',
-    external: true,
-    border: 'border-pink-500/20',
-  },
+ 
 ]
 
 export default function Contact() {
@@ -50,7 +34,7 @@ export default function Contact() {
     e.preventDefault()
     const subject = `Portfolio Contact from ${form.name}`
     const body = `Name: ${form.name}\nEmail: ${form.email}\n\nMessage:\n${form.message}`
-    window.location.href = `mailto:barni_szakacs@yahoo.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
+    window.location.href = `mailto:szakacs.barna.dev@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`
     setSent(true)
     setTimeout(() => setSent(false), 5000)
   }
