@@ -1,13 +1,13 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowDown, Github, Instagram, Mail } from 'lucide-react'
+import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react'
 
 const roles = [
+  'Software Engineer',
   'Full Stack Developer',
-  'Shopify Liquid Expert',
-  'Digital Growth Strategist',
-  'WordPress Specialist',
-  'SEO Engineer',
+  'Frontend Engineer',
+  'React & Node.js Developer',
+  'E-commerce Developer',
 ]
 
 const socials = [
@@ -17,9 +17,9 @@ const socials = [
     href: 'https://github.com/theChefBrown',
   },
   {
-    label: 'Instagram',
-    icon: <Instagram size={18} />,
-    href: 'https://www.instagram.com/barni_szaky/',
+    label: 'LinkedIn',
+    icon: <Linkedin size={18} />,
+    href: 'https://www.linkedin.com/in/szakacs-barna-467018244',
   },
   {
     label: 'Email',
@@ -151,7 +151,7 @@ export default function Hero() {
           >
             CS & Electrical Engineering graduate from{' '}
             <span className="text-purple-300 font-medium">Transilvania University, Brașov</span>.{' '}
-            I craft high-performance web experiences, e-commerce solutions, and full-stack applications — from pixel-perfect frontends to SEO-driven growth strategies.
+            I build maintainable full-stack applications, responsive interfaces, and e-commerce systems with a focus on performance, data, and practical user workflows.
           </motion.p>
 
           {/* CTAs */}

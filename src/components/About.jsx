@@ -89,16 +89,15 @@ export default function About() {
                 Computer Science and Electrical Engineering graduate from{' '}
                 <span className="text-purple-400 font-semibold">Transilvania University of Brașov, Romania</span>.
                 Over the course of five years across three companies, I have evolved into a versatile full-stack
-                developer with a strong track record in digital growth, e-commerce, and performance-driven web
-                engineering.
+                developer with experience delivering e-commerce platforms, internal tools, and performance-focused
+                web applications.
               </p>
               <p>
                 My work spans custom Shopify Liquid storefronts, WordPress platforms, and full-stack applications
-                built on{' '}
-                <span className="text-cyan-400 font-semibold">React, Vite, Supabase &amp; Vercel</span>. Beyond
-                writing code, I bring hands-on expertise in SEO strategy, local search optimisation, content
-                production, and measurable lead generation — delivering end-to-end digital solutions that create
-                real business impact.
+                built with{' '}
+                <span className="text-cyan-400 font-semibold">React, TypeScript, Node.js, Express, Supabase &amp; Vercel</span>.
+                I enjoy turning product requirements into robust interfaces, APIs, data flows, and measurable user
+                outcomes while keeping performance and maintainability in view.
               </p>
             </div>
 
