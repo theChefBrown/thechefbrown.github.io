@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Github, Twitter, Linkedin, Heart } from 'lucide-react'
+import { useLanguage } from '../i18n'
 
 const quickLinks = [
   { name: 'Home',           href: '#home'           },
@@ -18,6 +19,8 @@ const socials = [
 ]
 
 export default function Footer() {
+  const { t } = useLanguage()
+
   return (
     <footer className="relative border-t border-white/[0.06] pt-14 pb-8 overflow-hidden">
       {/* Subtle top gradient line */}
@@ -32,21 +35,21 @@ export default function Footer() {
               <span className="text-white">.</span>
             </a>
             <p className="text-slate-400 text-sm leading-relaxed max-w-xs">
-              Software engineer based in Brașov, Romania. Building reliable web applications, e-commerce systems, and data-driven tools.
+              {t.footer.description}
             </p>
           </div>
 
           {/* Quick links */}
           <div>
-            <p className="text-white font-semibold text-xs uppercase tracking-widest mb-5">Quick Links</p>
+            <p className="text-white font-semibold text-xs uppercase tracking-widest mb-5">{t.footer.quick}</p>
             <ul className="space-y-2.5">
-              {quickLinks.map((link) => (
-                <li key={link.name}>
+              {quickLinks.map((link, index) => (
+                <li key={link.href}>
                   <a
                     href={link.href}
                     className="text-slate-400 hover:text-white text-sm transition-colors duration-200 hover:translate-x-1 inline-block"
                   >
-                    {link.name}
+                    {t.nav[index]}
                   </a>
                 </li>
               ))}
@@ -55,7 +58,7 @@ export default function Footer() {
 
           {/* Socials */}
           <div>
-            <p className="text-white font-semibold text-xs uppercase tracking-widest mb-5">Follow Me</p>
+            <p className="text-white font-semibold text-xs uppercase tracking-widest mb-5">{t.footer.follow}</p>
             <div className="flex flex-wrap gap-3">
               {socials.map(({ icon: Icon, href, label }) => (
                 <motion.a
@@ -83,11 +86,11 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="border-t border-white/[0.05] pt-6 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-slate-500 text-xs flex items-center gap-1.5">
-            Made with{' '}
+            {t.footer.made}{' '}
             <Heart size={12} className="text-pink-500 fill-pink-500" />{' '}
-            by Szakacs Barna &copy; 2026
+            {t.footer.by} &copy; 2026
           </p>
-          <p className="text-slate-600 text-xs">Built with React · Vite · Tailwind CSS · Framer Motion</p>
+          <p className="text-slate-600 text-xs">{t.footer.built}</p>
         </div>
       </div>
     </footer>

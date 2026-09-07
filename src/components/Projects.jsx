@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { ExternalLink, Github, Zap, BarChart2, Sliders, Car, TrendingUp, CalendarDays, Package, PieChart } from 'lucide-react'
+import { useLanguage } from '../i18n'
 
 const projects = [
   {
@@ -44,6 +45,8 @@ const projects = [
 ]
 
 export default function Projects() {
+  const { t } = useLanguage()
+
   return (
     <section id="projects" className="relative section-padding overflow-hidden">
       {/* Ambient */}
@@ -58,13 +61,15 @@ export default function Projects() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <p className="text-cyan-400 font-semibold text-xs tracking-[0.25em] uppercase mb-3">What I've built</p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">Projects</h2>
+          <p className="text-cyan-400 font-semibold text-xs tracking-[0.25em] uppercase mb-3">{t.projects.eyebrow}</p>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">{t.projects.title}</h2>
           <div className="h-1 w-16 mx-auto rounded-full bg-gradient-to-r from-cyan-500 to-blue-500" />
         </motion.div>
 
         <div className="flex flex-col gap-10">
-          {projects.map((project, i) => (
+          {projects.map((project, i) => {
+            const copy = t.projects.items[i]
+            return (
             <motion.div
               key={project.title}
               initial={{ opacity: 0, y: 50 }}
@@ -89,17 +94,17 @@ export default function Projects() {
                           className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/20 text-emerald-400"
                         >
                           <span className={`w-1.5 h-1.5 rounded-full ${project.statusColor} animate-pulse`} />
-                          {project.status}
+                          {t.projects.live}
                         </span>
                       </div>
                       <p className={`text-sm font-semibold bg-gradient-to-r ${project.gradient} bg-clip-text text-transparent`}>
-                        {project.subtitle}
+                        {copy.subtitle}
                       </p>
                     </div>
                   </div>
 
                   {/* Description */}
-                  <p className="text-slate-300 text-sm leading-relaxed">{project.description}</p>
+                  <p className="text-slate-300 text-sm leading-relaxed">{copy.description}</p>
 
                   {/* Tech tags */}
                   <div className="flex flex-wrap gap-2">
@@ -123,7 +128,7 @@ export default function Projects() {
                       style={{ boxShadow: `0 4px 20px ${project.glowColor}` }}
                     >
                       <ExternalLink size={14} />
-                      Live Demo
+                      {t.projects.demo}
                     </a>
                     {project.githubUrl && (
                       <a
@@ -133,7 +138,7 @@ export default function Projects() {
                         className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold border border-white/10 hover:border-white/25 text-slate-300 hover:text-white transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
                       >
                         <Github size={14} />
-                        Source Code
+                        {t.projects.source}
                       </a>
                     )}
                   </div>
@@ -141,22 +146,23 @@ export default function Projects() {
 
                 {/* ── Right: feature list (2 cols) ── */}
                 <div className="lg:col-span-2 space-y-3">
-                  <p className="text-slate-500 text-[11px] font-semibold uppercase tracking-widest mb-4">Key Features</p>
-                  {project.features.map(({ icon: Icon, text }) => (
+                  <p className="text-slate-500 text-[11px] font-semibold uppercase tracking-widest mb-4">{t.projects.features}</p>
+                  {project.features.map(({ icon: Icon }, featureIndex) => (
                     <div
-                      key={text}
+                      key={copy.features[featureIndex]}
                       className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.07] transition-colors duration-200"
                     >
                       <div className={`w-7 h-7 rounded-lg bg-gradient-to-br ${project.gradient} flex items-center justify-center shrink-0`}>
                         <Icon size={13} className="text-white" />
                       </div>
-                      <p className="text-slate-300 text-xs leading-snug">{text}</p>
+                      <p className="text-slate-300 text-xs leading-snug">{copy.features[featureIndex]}</p>
                     </div>
                   ))}
                 </div>
               </div>
             </motion.div>
-          ))}
+            )
+          })}
         </div>
       </div>
     </section>

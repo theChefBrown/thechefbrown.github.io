@@ -1,14 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { ArrowDown, Github, Linkedin, Mail } from 'lucide-react'
-
-const roles = [
-  'Software Engineer',
-  'Full Stack Developer',
-  'Frontend Engineer',
-  'React & Node.js Developer',
-  'E-commerce Developer',
-]
+import { useLanguage } from '../i18n'
 
 const socials = [
   {
@@ -73,7 +66,8 @@ const itemVariants = {
 }
 
 export default function Hero() {
-  const typed = useTypingEffect(roles)
+  const { t } = useLanguage()
+  const typed = useTypingEffect(t.hero.roles)
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
@@ -107,13 +101,13 @@ export default function Hero() {
           <motion.div variants={itemVariants}>
             <span className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-purple-500/30 bg-purple-500/10 text-purple-300 text-xs font-semibold tracking-wide uppercase">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              Open to new opportunities
+              {t.hero.availability}
             </span>
           </motion.div>
 
           {/* Greeting */}
           <motion.p variants={itemVariants} className="text-slate-400 text-lg">
-            Hi, I'm
+            {t.hero.greeting}
           </motion.p>
 
           {/* Name */}
@@ -149,9 +143,7 @@ export default function Hero() {
             variants={itemVariants}
             className="max-w-2xl text-slate-400 text-base sm:text-lg leading-relaxed"
           >
-            CS & Electrical Engineering graduate from{' '}
-            <span className="text-purple-300 font-medium">Transilvania University, Brașov</span>.{' '}
-            I build maintainable full-stack applications, responsive interfaces, and e-commerce systems with a focus on performance, data, and practical user workflows.
+            {t.hero.tagline}
           </motion.p>
 
           {/* CTAs */}
@@ -163,13 +155,13 @@ export default function Hero() {
               href="#contact"
               className="w-48 sm:w-auto px-8 py-3.5 rounded-full font-semibold text-sm bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 shadow-lg shadow-purple-500/25 hover:shadow-purple-500/45 transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
             >
-              Get in Touch
+              {t.hero.contact}
             </a>
             <a
               href="#experience"
               className="w-48 sm:w-auto px-8 py-3.5 rounded-full font-semibold text-sm border border-white/10 hover:border-white/25 text-slate-300 hover:text-white backdrop-blur-sm transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
             >
-              View My Work
+              {t.hero.work}
             </a>
           </motion.div>
 
@@ -199,7 +191,7 @@ export default function Hero() {
         transition={{ delay: 1.5, duration: 0.8 }}
         className="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-500 hover:text-slate-300 transition-colors group"
       >
-        <span className="text-[10px] font-semibold tracking-[0.2em] uppercase">Scroll</span>
+        <span className="text-[10px] font-semibold tracking-[0.2em] uppercase">{t.hero.scroll}</span>
         <motion.div
           animate={{ y: [0, 7, 0] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut' }}

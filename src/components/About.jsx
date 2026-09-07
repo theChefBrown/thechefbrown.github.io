@@ -1,24 +1,14 @@
 import { motion } from 'framer-motion'
 import { MapPin, GraduationCap, Globe } from 'lucide-react'
-
-const stats = [
-  { value: '5+', label: 'Years Experience' },
-  { value: '3',  label: 'Companies' },
-  { value: '15+', label: 'Technologies' },
-]
-
-const languages = [
-  { lang: 'Hungarian', level: 'Native'     },
-  { lang: 'Romanian',  level: 'Native'     },
-  { lang: 'English',   level: 'B2 Advanced' },
-  { lang: 'German',    level: 'Basic'       },
-]
+import { useLanguage } from '../i18n'
 
 const fadeLeft  = { hidden: { opacity: 0, x: -50 }, show: { opacity: 1, x: 0, transition: { duration: 0.8, ease: 'easeOut' } } }
 const fadeRight = { hidden: { opacity: 0, x:  50 }, show: { opacity: 1, x: 0, transition: { duration: 0.8, ease: 'easeOut', delay: 0.15 } } }
 const fadeUp    = { hidden: { opacity: 0, y:  30 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } } }
 
 export default function About() {
+  const { t } = useLanguage()
+
   return (
     <section id="about" className="relative section-padding overflow-hidden">
       {/* Ambient orb */}
@@ -33,8 +23,8 @@ export default function About() {
           viewport={{ once: true, margin: '-80px' }}
           className="text-center mb-16"
         >
-          <p className="text-purple-400 font-semibold text-xs tracking-[0.25em] uppercase mb-3">Who I am</p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">About Me</h2>
+          <p className="text-purple-400 font-semibold text-xs tracking-[0.25em] uppercase mb-3">{t.about.eyebrow}</p>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">{t.about.title}</h2>
           <div className="h-1 w-16 mx-auto rounded-full bg-gradient-to-r from-purple-500 to-cyan-500" />
         </motion.div>
 
@@ -70,7 +60,7 @@ export default function About() {
               >
                 <div className="flex items-center gap-2">
                   <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-sm font-semibold text-white whitespace-nowrap">Open to work</span>
+                  <span className="text-sm font-semibold text-white whitespace-nowrap">{t.about.available}</span>
                 </div>
               </motion.div>
             </div>
@@ -86,27 +76,19 @@ export default function About() {
           >
             <div className="space-y-4 text-slate-300 leading-relaxed text-[15px]">
               <p>
-                Computer Science and Electrical Engineering graduate from{' '}
-                <span className="text-purple-400 font-semibold">Transilvania University of Brașov, Romania</span>.
-                Over the course of five years across three companies, I have evolved into a versatile full-stack
-                developer with experience delivering e-commerce platforms, internal tools, and performance-focused
-                web applications.
+                {t.about.paragraphs[0]}
               </p>
               <p>
-                My work spans custom Shopify Liquid storefronts, WordPress platforms, and full-stack applications
-                built with{' '}
-                <span className="text-cyan-400 font-semibold">React, TypeScript, Node.js, Express, Supabase &amp; Vercel</span>.
-                I enjoy turning product requirements into robust interfaces, APIs, data flows, and measurable user
-                outcomes while keeping performance and maintainability in view.
+                {t.about.paragraphs[1]}
               </p>
             </div>
 
             {/* Info pills */}
             <div className="flex flex-wrap gap-2">
               {[
-                { icon: <MapPin size={13} className="text-purple-400" />,      text: 'Brașov, Romania'           },
-                { icon: <GraduationCap size={13} className="text-cyan-400" />, text: 'CS & Electrical Engineering' },
-                { icon: <Globe size={13} className="text-pink-400" />,         text: '4 Languages'               },
+                { icon: <MapPin size={13} className="text-purple-400" />,      text: t.about.pills[0] },
+                { icon: <GraduationCap size={13} className="text-cyan-400" />, text: t.about.pills[1] },
+                { icon: <Globe size={13} className="text-pink-400" />,         text: t.about.pills[2] },
               ].map(({ icon, text }) => (
                 <div key={text} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg glass text-slate-300 text-xs font-medium">
                   {icon}
@@ -117,9 +99,9 @@ export default function About() {
 
             {/* Languages */}
             <div>
-              <p className="text-slate-500 text-xs font-semibold uppercase tracking-widest mb-3">Languages</p>
+              <p className="text-slate-500 text-xs font-semibold uppercase tracking-widest mb-3">{t.about.languages}</p>
               <div className="flex flex-wrap gap-2">
-                {languages.map(({ lang, level }) => (
+                {t.about.languageLevels.map(([lang, level]) => (
                   <span
                     key={lang}
                     className="px-3 py-1.5 rounded-full text-xs font-medium bg-white/[0.05] border border-white/10 text-slate-300"
@@ -133,7 +115,7 @@ export default function About() {
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-4">
-              {stats.map(({ value, label }) => (
+                {t.about.stats.map(([value, label]) => (
                 <div
                   key={label}
                   className="glass rounded-2xl p-4 text-center border border-white/[0.06] hover:border-purple-500/30 transition-all duration-300"

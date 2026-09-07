@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Award, Globe, BookOpen, Code, ExternalLink } from 'lucide-react'
+import { useLanguage } from '../i18n'
 
 const certs = [
   {
@@ -57,6 +58,8 @@ const certs = [
 ]
 
 export default function Certifications() {
+  const { t } = useLanguage()
+
   return (
     <section id="certifications" className="relative section-padding overflow-hidden">
       {/* Ambient */}
@@ -71,17 +74,18 @@ export default function Certifications() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <p className="text-yellow-400 font-semibold text-xs tracking-[0.25em] uppercase mb-3">Achievements</p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">Certifications &amp; Education</h2>
+          <p className="text-yellow-400 font-semibold text-xs tracking-[0.25em] uppercase mb-3">{t.certifications.eyebrow}</p>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">{t.certifications.title}</h2>
           <div className="h-1 w-16 mx-auto rounded-full bg-gradient-to-r from-yellow-500 to-orange-500" />
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
           {certs.map((cert, i) => {
             const Icon = cert.icon
+            const copy = t.certifications.items[i]
             return (
               <motion.div
-                key={cert.title}
+                key={i}
                 initial={{ opacity: 0, y: 40 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: '-60px' }}
@@ -93,11 +97,11 @@ export default function Certifications() {
                   <Icon size={20} />
                 </div>
 
-                <h3 className="font-bold text-white text-sm leading-snug mb-1">{cert.title}</h3>
+                <h3 className="font-bold text-white text-sm leading-snug mb-1">{copy[0]}</h3>
                 <p className="text-slate-500 text-[11px] font-semibold uppercase tracking-wider mb-3">
                   {cert.issuer}
                 </p>
-                <p className="text-slate-300 text-xs leading-relaxed flex-1 mb-4">{cert.description}</p>
+                <p className="text-slate-300 text-xs leading-relaxed flex-1 mb-4">{copy[1]}</p>
 
                 {cert.link && (
                   <a
@@ -106,7 +110,7 @@ export default function Certifications() {
                     rel="noopener noreferrer"
                     className="inline-flex items-center gap-1.5 text-xs font-semibold text-white/70 hover:text-white transition-colors group mt-auto"
                   >
-                    {cert.link.label}
+                    {t.certifications.links[i]}
                     <ExternalLink
                       size={11}
                       className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"

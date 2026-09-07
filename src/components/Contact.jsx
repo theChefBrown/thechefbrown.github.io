@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Mail, Linkedin, Send, CheckCircle2 } from 'lucide-react'
+import { useLanguage } from '../i18n'
 
 const contactDetails = [
   {
@@ -24,6 +25,7 @@ const contactDetails = [
 ]
 
 export default function Contact() {
+  const { t } = useLanguage()
   const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [sent, setSent] = useState(false)
 
@@ -53,11 +55,11 @@ export default function Contact() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <p className="text-cyan-400 font-semibold text-xs tracking-[0.25em] uppercase mb-3">Get in touch</p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">Contact Me</h2>
+          <p className="text-cyan-400 font-semibold text-xs tracking-[0.25em] uppercase mb-3">{t.contact.eyebrow}</p>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">{t.contact.title}</h2>
           <div className="h-1 w-16 mx-auto rounded-full bg-gradient-to-r from-cyan-500 to-purple-500" />
           <p className="text-slate-400 mt-6 max-w-xl mx-auto text-sm leading-relaxed">
-            Have a project, an idea, or an opportunity? I'd love to hear from you — whether it's a quick question or a detailed brief.
+            {t.contact.intro}
           </p>
         </motion.div>
 
@@ -74,7 +76,7 @@ export default function Contact() {
               <div className="grid sm:grid-cols-2 gap-5">
                 <div>
                   <label htmlFor="contact-name" className="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">
-                    Your Name
+                    {t.contact.name}
                   </label>
                   <input
                     id="contact-name"
@@ -83,13 +85,13 @@ export default function Contact() {
                     value={form.name}
                     onChange={handleChange}
                     required
-                    placeholder="John Doe"
+                    placeholder={t.contact.namePlaceholder}
                     className="w-full px-4 py-3 rounded-xl bg-white/[0.05] border border-white/[0.08] text-white placeholder-slate-600 text-sm focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.07] transition-all duration-200"
                   />
                 </div>
                 <div>
                   <label htmlFor="contact-email" className="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">
-                    Email Address
+                    {t.contact.email}
                   </label>
                   <input
                     id="contact-email"
@@ -98,7 +100,7 @@ export default function Contact() {
                     value={form.email}
                     onChange={handleChange}
                     required
-                    placeholder="john@example.com"
+                    placeholder={t.contact.emailPlaceholder}
                     className="w-full px-4 py-3 rounded-xl bg-white/[0.05] border border-white/[0.08] text-white placeholder-slate-600 text-sm focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.07] transition-all duration-200"
                   />
                 </div>
@@ -106,7 +108,7 @@ export default function Contact() {
 
               <div>
                 <label htmlFor="contact-message" className="block text-xs font-semibold text-slate-400 mb-2 uppercase tracking-wider">
-                  Message
+                  {t.contact.message}
                 </label>
                 <textarea
                   id="contact-message"
@@ -115,7 +117,7 @@ export default function Contact() {
                   onChange={handleChange}
                   required
                   rows={6}
-                  placeholder="Tell me about your project or opportunity..."
+                  placeholder={t.contact.messagePlaceholder}
                   className="w-full px-4 py-3 rounded-xl bg-white/[0.05] border border-white/[0.08] text-white placeholder-slate-600 text-sm focus:outline-none focus:border-purple-500/50 focus:bg-white/[0.07] transition-all duration-200 resize-none"
                 />
               </div>
@@ -129,12 +131,12 @@ export default function Contact() {
                 {sent ? (
                   <>
                     <CheckCircle2 size={17} />
-                    Opening your email client…
+                    {t.contact.sending}
                   </>
                 ) : (
                   <>
                     <Send size={17} />
-                    Send Message
+                    {t.contact.send}
                   </>
                 )}
               </motion.button>
@@ -150,9 +152,9 @@ export default function Contact() {
             className="lg:col-span-2 space-y-5"
           >
             <div className="glass rounded-2xl p-7 border border-white/[0.06] space-y-5">
-              <h3 className="font-bold text-white text-base">Reach me directly</h3>
+              <h3 className="font-bold text-white text-base">{t.contact.direct}</h3>
 
-              {contactDetails.map(({ icon: Icon, iconColor, label, value, href, external, border }) => (
+              {contactDetails.map(({ icon: Icon, iconColor, label, value, href, external, border }, index) => (
                 <a
                   key={label}
                   href={href}
@@ -166,7 +168,7 @@ export default function Contact() {
                     <Icon size={18} />
                   </div>
                   <div>
-                    <p className="text-slate-500 text-[11px] font-semibold uppercase tracking-wider mb-0.5">{label}</p>
+                    <p className="text-slate-500 text-[11px] font-semibold uppercase tracking-wider mb-0.5">{t.contact.details[index]}</p>
                     <p className="text-slate-300 group-hover:text-white transition-colors text-sm font-medium">{value}</p>
                   </div>
                 </a>
@@ -175,7 +177,7 @@ export default function Contact() {
 
             <div className="glass rounded-2xl p-6 border border-white/[0.06]">
               <p className="text-slate-400 text-sm leading-relaxed">
-                I'm currently open to new roles and freelance projects — frontend, full-stack, Shopify, WordPress, SEO strategy, or digital growth consulting. Let's build something great.
+                {t.contact.note}
               </p>
             </div>
           </motion.div>

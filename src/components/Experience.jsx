@@ -1,5 +1,6 @@
 import { motion } from 'framer-motion'
 import { Calendar, ChevronRight, ExternalLink } from 'lucide-react'
+import { useLanguage } from '../i18n'
 
 const experiences = [
   {
@@ -73,6 +74,9 @@ const experiences = [
 ]
 
 function ExperienceCard({ exp, index }) {
+  const { t } = useLanguage()
+  const copy = t.experience.items[index]
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 40 }}
@@ -97,9 +101,9 @@ function ExperienceCard({ exp, index }) {
             <span
               className={`inline-flex text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-gradient-to-r ${exp.gradientClass} text-white mb-1.5`}
             >
-              {exp.type}
+              {t.experience.fullTime}
             </span>
-            <h3 className="text-base sm:text-lg font-bold text-white leading-snug">{exp.role}</h3>
+            <h3 className="text-base sm:text-lg font-bold text-white leading-snug">{copy.role}</h3>
             <div className="flex items-center gap-1.5">
               {exp.companyUrl ? (
                 <a
@@ -121,16 +125,16 @@ function ExperienceCard({ exp, index }) {
 
           <div className="flex items-center gap-1.5 text-slate-500 text-xs font-medium shrink-0">
             <Calendar size={13} />
-            {exp.duration}
+            {copy.duration}
           </div>
         </div>
 
         {/* Summary */}
-        <p className="text-slate-400 text-sm leading-relaxed mb-4">{exp.summary}</p>
+        <p className="text-slate-400 text-sm leading-relaxed mb-4">{copy.summary}</p>
 
         {/* Achievements */}
         <ul className="space-y-2 mb-5">
-          {exp.achievements.map((item, i) => (
+          {copy.achievements.map((item, i) => (
             <li key={i} className="flex items-start gap-2 text-sm text-slate-300">
               <ChevronRight
                 size={13}
@@ -159,6 +163,8 @@ function ExperienceCard({ exp, index }) {
 }
 
 export default function Experience() {
+  const { t } = useLanguage()
+
   return (
     <section id="experience" className="relative section-padding overflow-hidden">
       {/* Ambient */}
@@ -173,8 +179,8 @@ export default function Experience() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <p className="text-cyan-400 font-semibold text-xs tracking-[0.25em] uppercase mb-3">Career Path</p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">Work Experience</h2>
+          <p className="text-cyan-400 font-semibold text-xs tracking-[0.25em] uppercase mb-3">{t.experience.eyebrow}</p>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">{t.experience.title}</h2>
           <div className="h-1 w-16 mx-auto rounded-full bg-gradient-to-r from-cyan-500 to-purple-500" />
         </motion.div>
 

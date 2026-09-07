@@ -1,4 +1,5 @@
 import { motion } from 'framer-motion'
+import { useLanguage } from '../i18n'
 
 const categories = [
   {
@@ -47,6 +48,8 @@ const categories = [
 ]
 
 export default function Skills() {
+  const { t } = useLanguage()
+
   return (
     <section id="skills" className="relative section-padding overflow-hidden">
       {/* Ambient */}
@@ -61,15 +64,15 @@ export default function Skills() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <p className="text-pink-400 font-semibold text-xs tracking-[0.25em] uppercase mb-3">What I work with</p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">Skills & Technologies</h2>
+          <p className="text-pink-400 font-semibold text-xs tracking-[0.25em] uppercase mb-3">{t.skills.eyebrow}</p>
+          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">{t.skills.title}</h2>
           <div className="h-1 w-16 mx-auto rounded-full bg-gradient-to-r from-pink-500 to-purple-500" />
         </motion.div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {categories.map((cat, i) => (
             <motion.div
-              key={cat.title}
+              key={i}
               initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: '-60px' }}
@@ -86,7 +89,7 @@ export default function Skills() {
                   <div className="w-3 h-3 bg-white/90 rounded-sm" />
                 </div>
                 <h3 className={`font-bold text-sm bg-gradient-to-r ${cat.gradient} bg-clip-text text-transparent`}>
-                  {cat.title}
+                  {t.skills.categories[i]}
                 </h3>
               </div>
 

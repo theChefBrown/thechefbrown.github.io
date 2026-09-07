@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
+import { useLanguage } from '../i18n'
 
 const navLinks = [
   { name: 'Home',           href: '#home' },
@@ -13,6 +14,7 @@ const navLinks = [
 ]
 
 export default function Navbar() {
+  const { t } = useLanguage()
   const [scrolled,  setScrolled]  = useState(false)
   const [menuOpen,  setMenuOpen]  = useState(false)
   const [activeSection, setActiveSection] = useState('home')
@@ -61,17 +63,17 @@ export default function Navbar() {
 
         {/* Desktop links */}
         <ul className="hidden md:flex items-center gap-7">
-          {navLinks.map((link) => {
+          {navLinks.map((link, index) => {
             const isActive = activeSection === link.href.slice(1)
             return (
-              <li key={link.name}>
+              <li key={link.href}>
                 <a
                   href={link.href}
                   className={`text-sm font-medium relative transition-colors duration-200 ${
                     isActive ? 'text-white' : 'text-slate-400 hover:text-white'
                   }`}
                 >
-                  {link.name}
+                  {t.nav[index]}
                   <span
                     className={`absolute -bottom-1 left-0 h-px bg-gradient-to-r from-purple-400 to-cyan-400 transition-all duration-300 ${
                       isActive ? 'w-full' : 'w-0 group-hover:w-full'
@@ -88,14 +90,14 @@ export default function Navbar() {
           href="#contact"
           className="hidden md:inline-flex items-center gap-2 px-5 py-2 rounded-full text-sm font-semibold bg-gradient-to-r from-purple-600 to-cyan-600 hover:from-purple-500 hover:to-cyan-500 transition-all duration-300 shadow-lg shadow-purple-500/20 hover:shadow-purple-500/40 hover:-translate-y-0.5"
         >
-          Let's Talk
+          {t.navbar.talk}
         </a>
 
         {/* Mobile toggle */}
         <button
           onClick={() => setMenuOpen(!menuOpen)}
           className="md:hidden p-2 rounded-xl glass text-slate-400 hover:text-white transition-colors"
-          aria-label="Toggle menu"
+          aria-label={t.navbar.menu}
         >
           {menuOpen ? <X size={20} /> : <Menu size={20} />}
         </button>
@@ -112,14 +114,14 @@ export default function Navbar() {
             className="md:hidden overflow-hidden backdrop-blur-2xl bg-[#070714]/95 border-t border-white/[0.06]"
           >
             <div className="px-6 py-5 flex flex-col gap-1">
-              {navLinks.map((link) => (
+              {navLinks.map((link, index) => (
                 <a
-                  key={link.name}
+                  key={link.href}
                   href={link.href}
                   onClick={() => setMenuOpen(false)}
                   className="py-3 px-4 rounded-xl text-slate-300 hover:text-white hover:bg-white/5 transition-all duration-200 text-sm font-medium"
                 >
-                  {link.name}
+                  {t.nav[index]}
                 </a>
               ))}
               <a
@@ -127,7 +129,7 @@ export default function Navbar() {
                 onClick={() => setMenuOpen(false)}
                 className="mt-3 py-3 text-center rounded-xl font-semibold text-sm bg-gradient-to-r from-purple-600 to-cyan-600"
               >
-                Let's Talk
+                {t.navbar.talk}
               </a>
             </div>
           </motion.div>
