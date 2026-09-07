@@ -27,16 +27,16 @@ const categories = [
     skills: ['TypeScript', 'Git', 'GitHub', 'Docker', 'Vite', 'Vercel', 'JSON'],
   },
   {
-    title: 'E-commerce & CMS',
+    title: 'Business Applications',
     gradient: 'from-pink-500 to-rose-500',
     glow: 'rgba(236,72,153,0.25)',
     skills: [
-      'Shopify Liquid',
-      'Theme Development',
-      'Custom Sections',
-      'WordPress',
-      'Custom Plugins',
-      'E-commerce UX',
+      'Role-Based Access',
+      'Workflow Management',
+      'Task & Order Management',
+      'Notifications',
+      'Calendar Scheduling',
+      'Operational Reporting',
     ],
   },
   {
