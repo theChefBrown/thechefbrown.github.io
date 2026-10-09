@@ -1,5 +1,5 @@
 import { motion } from 'framer-motion'
-import { ExternalLink, Github, Zap, BarChart2, Sliders, Car, TrendingUp, CalendarDays, Package, PieChart } from 'lucide-react'
+import { ExternalLink, Github, Zap, BarChart2, Sliders, Car, TrendingUp, CalendarDays, Package, PieChart, Box, FileText, Users, LayoutDashboard } from 'lucide-react'
 import { useLanguage } from '../i18n'
 
 const projects = [
@@ -38,6 +38,26 @@ const projects = [
       { icon: BarChart2, text: 'Side-by-side comparison of up to 3 vehicles' },
       { icon: Sliders,  text: 'Deterministic range calculator using temperature, driving style, and AC inputs' },
       { icon: Zap,      text: 'TypeScript frontend with unit conversion and theme state controls' },
+    ],
+    status: 'Live',
+    statusColor: 'bg-emerald-400',
+  },
+  {
+    title: 'PergolaLink Partners Portal',
+    subtitle: 'B2B Dealer Portal & 3D Pergola Configurator',
+    description:
+      'A public demo of the most demanding application I have built: a B2B partners portal for Ambisun dealers. Dealers work in a dedicated workspace with dashboard, orders, offers, and calendar, while a 3D pergola configurator handles dimensions, colours, live pricing, animations, and generated PDF documents. The production version runs on a Laravel REST API with a MySQL backend and three distinct roles — admin, manager, and dealer.',
+    tags: ['Next.js', 'React', 'Laravel', 'MySQL', 'REST API', '3D Configurator', 'PDF Generation'],
+    liveUrl: 'https://thechefbrown.github.io/pergolalink-partners-portal/',
+    githubUrl: 'https://github.com/theChefBrown/pergolalink-partners-portal',
+    gradient: 'from-amber-500 to-orange-600',
+    borderColor: 'border-amber-500/25',
+    glowColor: 'rgba(245,158,11,0.12)',
+    features: [
+      { icon: Box,             text: '3D pergola configurator with dimensions, colours, live pricing, and animations' },
+      { icon: FileText,        text: 'Generated technical-drawings PDF plus a client offer PDF with markup and discount' },
+      { icon: Users,           text: 'Three role-based workspaces — admin, manager, and dealer — each with its own toolset' },
+      { icon: LayoutDashboard, text: 'Dealer dashboard with orders, offers, calendar, documents, and notifications' },
     ],
     status: 'Live',
     statusColor: 'bg-emerald-400',
