@@ -27,7 +27,7 @@ const experiences = [
       'Modelled operational data and built reporting workflows that give teams a reliable view of sales and product performance',
       'Acted as a cross-functional bridge between technical, marketing, and production teams; contributed hands-on knowledge from site assembly and workshop experience',
     ],
-    tech: ['WordPress', 'PHP', 'CSS', 'React', 'Vite', 'Supabase', 'Vercel', 'Git'],
+    tech: ['WordPress', 'PHP', 'CSS', 'React', 'Next.js', 'Laravel', 'MySQL', 'Vite', 'Supabase', 'Vercel', 'Git'],
   },
   {
     id: 2,
