@@ -1,190 +1,145 @@
-import { motion } from 'framer-motion'
-import { ExternalLink, Github, Zap, BarChart2, Sliders, Car, TrendingUp, CalendarDays, Package, PieChart, Box, FileText, Users, LayoutDashboard } from 'lucide-react'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import {
+  ExternalLink, Github, Zap, BarChart2, Sliders, Car, TrendingUp, CalendarDays, PieChart,
+  Box, FileText, Users, LayoutDashboard,
+} from 'lucide-react'
 import { useLanguage } from '../i18n'
+import ScrollPanel from './ScrollPanel'
+import SectionHeading from './SectionHeading'
 
 const projects = [
   {
     title: 'Ambisun Analytics',
-    subtitle: 'Full-Stack Business Intelligence Dashboard',
-    description:
-      'A custom internal analytics platform built end-to-end for Ambisun, replacing manual spreadsheet tracking with a real-time business intelligence suite. The app centralises order management, product performance data, and sales analytics — giving the team a single source of truth for operational decisions.',
+    image: './images/projects/ambisun-analytics.webp',
     tags: ['Next.js', 'React', 'Supabase', 'Vercel', 'Tailwind CSS', 'Recharts', 'PostgreSQL'],
     liveUrl: 'https://ambisun-intern.vercel.app/',
-    gradient: 'from-purple-500 to-pink-500',
-    borderColor: 'border-purple-500/25',
-    glowColor: 'rgba(139,92,246,0.12)',
-    features: [
-      { icon: TrendingUp,   text: 'KPI dashboard: total orders, products sold, and period-over-period trends' },
-      { icon: BarChart2,    text: 'Order timeline and product performance charts with date range filtering' },
-      { icon: PieChart,     text: 'Product mix breakdown across pergola, glass, carport, and screen systems' },
-      { icon: CalendarDays, text: 'Calendar view, order management, and analytics pages' },
-    ],
-    status: 'Live',
-    statusColor: 'bg-emerald-400',
+    gradient: 'from-blue-600 to-sky-600',
+    icons: [TrendingUp, BarChart2, PieChart, CalendarDays],
   },
   {
     title: 'EonDrive',
-    subtitle: 'EV Range Comparison & Calculator',
-    description:
-      'A TypeScript application for browsing, comparing, and calculating the real-world range of electric vehicles. It pairs a responsive frontend with a Node.js and Express REST API, providing a structured data layer for filtering, comparison, and range simulations.',
+    image: './images/projects/eondrive.webp',
     tags: ['TypeScript', 'Express.js', 'Node.js', 'JavaScript', 'Tailwind CSS', 'Docker', 'REST API'],
     liveUrl: 'https://thechefbrown.github.io/eondrive/',
     githubUrl: 'https://github.com/theChefBrown/eondrive',
-    gradient: 'from-cyan-500 to-blue-600',
-    borderColor: 'border-cyan-500/25',
-    glowColor: 'rgba(6,182,212,0.12)',
-    features: [
-      { icon: Car,      text: 'REST API-backed catalogue of 20+ EV models and specifications' },
-      { icon: BarChart2, text: 'Side-by-side comparison of up to 3 vehicles' },
-      { icon: Sliders,  text: 'Deterministic range calculator using temperature, driving style, and AC inputs' },
-      { icon: Zap,      text: 'TypeScript frontend with unit conversion and theme state controls' },
-    ],
-    status: 'Live',
-    statusColor: 'bg-emerald-400',
+    gradient: 'from-indigo-600 to-blue-500',
+    icons: [Car, BarChart2, Sliders, Zap],
   },
   {
     title: 'PergolaLink Partners Portal',
-    subtitle: 'B2B Dealer Portal & 3D Pergola Configurator',
-    description:
-      'A public demo of the most demanding application I have built: a B2B partners portal for Ambisun dealers. Dealers work in a dedicated workspace with dashboard, orders, offers, and calendar, while a 3D pergola configurator handles dimensions, colours, live pricing, animations, and generated PDF documents. The production version runs on a Laravel REST API with a MySQL backend and three distinct roles — admin, manager, and dealer.',
+    image: './images/projects/pergolalink.webp',
     tags: ['Next.js', 'React', 'Laravel', 'MySQL', 'REST API', '3D Configurator', 'PDF Generation'],
     liveUrl: 'https://thechefbrown.github.io/pergolalink-partners-portal/',
     githubUrl: 'https://github.com/theChefBrown/pergolalink-partners-portal',
-    gradient: 'from-amber-500 to-orange-600',
-    borderColor: 'border-amber-500/25',
-    glowColor: 'rgba(245,158,11,0.12)',
-    features: [
-      { icon: Box,             text: '3D pergola configurator with dimensions, colours, live pricing, and animations' },
-      { icon: FileText,        text: 'Generated technical-drawings PDF plus a client offer PDF with markup and discount' },
-      { icon: Users,           text: 'Three role-based workspaces — admin, manager, and dealer — each with its own toolset' },
-      { icon: LayoutDashboard, text: 'Dealer dashboard with orders, offers, calendar, documents, and notifications' },
-    ],
-    status: 'Live',
-    statusColor: 'bg-emerald-400',
+    gradient: 'from-sky-600 to-cyan-600',
+    icons: [Box, FileText, Users, LayoutDashboard],
   },
 ]
+
+function ProjectCard({ project, index }) {
+  const { t } = useLanguage()
+  const copy = t.projects.items[index]
+  const ref = useRef(null)
+  const reduce = useReducedMotion()
+
+  // The screenshot slowly zooms and drifts inside its frame while the card crosses the viewport.
+  const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] })
+  const imgScale = useTransform(scrollYProgress, [0, 0.5, 1], reduce ? [1, 1, 1] : [1.2, 1.06, 1.2])
+  const imgY = useTransform(scrollYProgress, [0, 1], reduce ? ['0%', '0%'] : ['-5%', '5%'])
+
+  const host = new URL(project.liveUrl).host
+  const flip = index % 2 === 1
+
+  return (
+    <motion.article
+      ref={ref}
+      initial={{ opacity: 0, y: reduce ? 0 : 60, rotateX: reduce ? 0 : 12, transformPerspective: 1200 }}
+      whileInView={{ opacity: 1, y: 0, rotateX: 0 }}
+      viewport={{ once: true, margin: '-60px' }}
+      transition={{ duration: 0.8, ease: 'easeOut' }}
+      className="glass-card grid gap-6 !rounded-[1.75rem] p-4 sm:p-6 lg:grid-cols-12 lg:gap-8"
+    >
+      {/* Visual + features */}
+      <div className={`space-y-4 lg:col-span-6 ${flip ? 'lg:order-2' : ''}`}>
+        <div className="overflow-hidden rounded-2xl border border-white bg-white shadow-[0_24px_50px_-24px_rgba(37,99,235,0.5)]">
+          <div className="flex items-center gap-1.5 border-b border-slate-100 bg-white px-4 py-2.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-red-300" />
+            <span className="h-2.5 w-2.5 rounded-full bg-amber-300" />
+            <span className="h-2.5 w-2.5 rounded-full bg-emerald-300" />
+            <span className="ml-3 truncate rounded-full bg-slate-100 px-3 py-0.5 text-[10px] font-medium text-slate-500">{host}</span>
+          </div>
+          <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
+            <motion.img
+              src={project.image}
+              alt={`${project.title} preview`}
+              loading="lazy"
+              width="1200"
+              height="750"
+              style={{ scale: imgScale, y: imgY }}
+              className="h-full w-full object-cover object-top"
+            />
+          </div>
+        </div>
+
+        <div className="grid gap-2.5 sm:grid-cols-2">
+          {project.icons.map((Icon, j) => (
+            <div key={j} className="flex items-start gap-2.5 rounded-xl border border-white bg-white/60 p-3">
+              <span className={`grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-gradient-to-br ${project.gradient} text-white`}>
+                <Icon size={13} />
+              </span>
+              <p className="text-[11.5px] leading-snug text-slate-600">{copy.features[j]}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Copy */}
+      <div className="flex flex-col justify-center lg:col-span-6">
+        <div className="mb-1 flex flex-wrap items-center gap-3">
+          <h3 className="text-2xl font-extrabold tracking-tight text-[#0b1220]">{project.title}</h3>
+          <span className="inline-flex items-center gap-1.5 rounded-full border border-emerald-200 bg-emerald-50 px-2.5 py-1 text-[11px] font-bold text-emerald-600">
+            <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-emerald-500" />
+            {t.projects.live}
+          </span>
+        </div>
+        <p className={`mb-4 bg-gradient-to-r ${project.gradient} bg-clip-text text-sm font-bold text-transparent`}>{copy.subtitle}</p>
+        <p className="mb-5 text-sm leading-relaxed text-slate-600">{copy.description}</p>
+
+        <div className="mb-6 flex flex-wrap gap-2">
+          {project.tags.map((tag) => (
+            <span key={tag} className="chip">{tag}</span>
+          ))}
+        </div>
+
+        <div className="flex flex-wrap gap-3">
+          <a href={project.liveUrl} target="_blank" rel="noopener noreferrer" className="btn-dark">
+            <ExternalLink size={15} />
+            {t.projects.demo}
+          </a>
+          {project.githubUrl && (
+            <a href={project.githubUrl} target="_blank" rel="noopener noreferrer" className="btn-glass">
+              <Github size={15} />
+              {t.projects.source}
+            </a>
+          )}
+        </div>
+      </div>
+    </motion.article>
+  )
+}
 
 export default function Projects() {
   const { t } = useLanguage()
 
   return (
-    <section id="projects" className="relative section-padding overflow-hidden">
-      {/* Ambient */}
-      <div className="absolute top-1/2 left-1/3 w-[500px] h-[500px] bg-cyan-600/8 rounded-full blur-[140px] pointer-events-none -translate-y-1/2" />
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16"
-        >
-          <p className="text-cyan-400 font-semibold text-xs tracking-[0.25em] uppercase mb-3">{t.projects.eyebrow}</p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">{t.projects.title}</h2>
-          <div className="h-1 w-16 mx-auto rounded-full bg-gradient-to-r from-cyan-500 to-blue-500" />
-        </motion.div>
-
-        <div className="flex flex-col gap-10">
-          {projects.map((project, i) => {
-            const copy = t.projects.items[i]
-            return (
-            <motion.div
-              key={project.title}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.7, delay: i * 0.1, ease: 'easeOut' }}
-              className={`relative rounded-3xl border ${project.borderColor} overflow-hidden`}
-              style={{ boxShadow: `0 8px 50px ${project.glowColor}` }}
-            >
-              {/* Top gradient accent bar */}
-              <div className={`h-1 w-full bg-gradient-to-r ${project.gradient}`} />
-
-              <div className="p-7 sm:p-10 grid lg:grid-cols-5 gap-8 items-start bg-white/[0.03] backdrop-blur-sm">
-                {/* ── Left: info (3 cols) ── */}
-                <div className="lg:col-span-3 space-y-6">
-                  {/* Header row */}
-                  <div className="flex flex-wrap items-start gap-3">
-                    <div>
-                      <div className="flex items-center gap-2.5 mb-1">
-                        <h3 className="text-2xl font-black text-white">{project.title}</h3>
-                        <span
-                          className="inline-flex items-center gap-1.5 text-[11px] font-bold px-2.5 py-1 rounded-full bg-emerald-400/10 border border-emerald-400/20 text-emerald-400"
-                        >
-                          <span className={`w-1.5 h-1.5 rounded-full ${project.statusColor} animate-pulse`} />
-                          {t.projects.live}
-                        </span>
-                      </div>
-                      <p className={`text-sm font-semibold bg-gradient-to-r ${project.gradient} bg-clip-text text-transparent`}>
-                        {copy.subtitle}
-                      </p>
-                    </div>
-                  </div>
-
-                  {/* Description */}
-                  <p className="text-slate-300 text-sm leading-relaxed">{copy.description}</p>
-
-                  {/* Tech tags */}
-                  <div className="flex flex-wrap gap-2">
-                    {project.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="text-[11px] font-medium px-3 py-1.5 rounded-full bg-white/[0.06] border border-white/[0.08] text-slate-300"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-
-                  {/* CTA buttons */}
-                  <div className="flex flex-wrap gap-3">
-                    <a
-                      href={project.liveUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className={`inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold bg-gradient-to-r ${project.gradient} hover:opacity-90 transition-all duration-300 shadow-lg hover:-translate-y-0.5 active:scale-95`}
-                      style={{ boxShadow: `0 4px 20px ${project.glowColor}` }}
-                    >
-                      <ExternalLink size={14} />
-                      {t.projects.demo}
-                    </a>
-                    {project.githubUrl && (
-                      <a
-                        href={project.githubUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold border border-white/10 hover:border-white/25 text-slate-300 hover:text-white transition-all duration-300 hover:-translate-y-0.5 active:scale-95"
-                      >
-                        <Github size={14} />
-                        {t.projects.source}
-                      </a>
-                    )}
-                  </div>
-                </div>
-
-                {/* ── Right: feature list (2 cols) ── */}
-                <div className="lg:col-span-2 space-y-3">
-                  <p className="text-slate-500 text-[11px] font-semibold uppercase tracking-widest mb-4">{t.projects.features}</p>
-                  {project.features.map(({ icon: Icon }, featureIndex) => (
-                    <div
-                      key={copy.features[featureIndex]}
-                      className="flex items-start gap-3 p-3.5 rounded-xl bg-white/[0.04] border border-white/[0.06] hover:bg-white/[0.07] transition-colors duration-200"
-                    >
-                      <div className={`w-7 h-7 rounded-lg bg-gradient-to-br ${project.gradient} flex items-center justify-center shrink-0`}>
-                        <Icon size={13} className="text-white" />
-                      </div>
-                      <p className="text-slate-300 text-xs leading-snug">{copy.features[featureIndex]}</p>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </motion.div>
-            )
-          })}
-        </div>
+    <ScrollPanel id="projects" className="p-5 sm:p-10 lg:p-14">
+      <SectionHeading eyebrow={t.projects.eyebrow} title={t.projects.title} className="mb-10" />
+      <div className="space-y-8">
+        {projects.map((project, i) => (
+          <ProjectCard key={project.title} project={project} index={i} />
+        ))}
       </div>
-    </section>
+    </ScrollPanel>
   )
 }

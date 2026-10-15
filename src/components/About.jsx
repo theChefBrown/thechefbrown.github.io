@@ -1,133 +1,111 @@
-import { motion } from 'framer-motion'
-import { MapPin, GraduationCap, Globe } from 'lucide-react'
+import { useEffect, useRef } from 'react'
+import { animate, motion, useInView, useReducedMotion } from 'framer-motion'
+import { Briefcase, Building2, Layers, MapPin, GraduationCap, Globe } from 'lucide-react'
 import { useLanguage } from '../i18n'
+import ScrollPanel from './ScrollPanel'
+import SectionHeading from './SectionHeading'
 
-const fadeLeft  = { hidden: { opacity: 0, x: -50 }, show: { opacity: 1, x: 0, transition: { duration: 0.8, ease: 'easeOut' } } }
-const fadeRight = { hidden: { opacity: 0, x:  50 }, show: { opacity: 1, x: 0, transition: { duration: 0.8, ease: 'easeOut', delay: 0.15 } } }
-const fadeUp    = { hidden: { opacity: 0, y:  30 }, show: { opacity: 1, y: 0, transition: { duration: 0.7, ease: 'easeOut' } } }
+function CountUp({ value }) {
+  const ref = useRef(null)
+  const inView = useInView(ref, { once: true, margin: '-40px' })
+  const reduce = useReducedMotion()
+  const target = parseInt(value, 10)
+  const suffix = String(value).replace(/^\d+/, '')
+
+  useEffect(() => {
+    if (!inView || Number.isNaN(target)) return
+    if (reduce) {
+      ref.current.textContent = `${target}${suffix}`
+      return
+    }
+    const controls = animate(0, target, {
+      duration: 1.4,
+      ease: 'easeOut',
+      onUpdate: (v) => { ref.current.textContent = `${Math.round(v)}${suffix}` },
+    })
+    return () => controls.stop()
+  }, [inView, target, suffix, reduce])
+
+  return <span ref={ref}>{Number.isNaN(target) ? value : `0${suffix}`}</span>
+}
+
+const statIcons = [Briefcase, Building2, Layers]
+const pillIcons = [
+  { Icon: MapPin, color: 'text-blue-600' },
+  { Icon: GraduationCap, color: 'text-indigo-600' },
+  { Icon: Globe, color: 'text-sky-600' },
+]
 
 export default function About() {
   const { t } = useLanguage()
 
   return (
-    <section id="about" className="relative section-padding overflow-hidden">
-      {/* Ambient orb */}
-      <div className="absolute top-1/2 -left-40 w-96 h-96 bg-purple-600/10 rounded-full blur-[120px] -translate-y-1/2 pointer-events-none" />
+    <ScrollPanel id="about" className="p-6 sm:p-10 lg:p-14">
+      <div className="grid gap-10 lg:grid-cols-12 lg:gap-14">
+        {/* Left */}
+        <div className="lg:col-span-5">
+          <SectionHeading eyebrow={t.about.eyebrow} title={t.about.title} />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Section header */}
-        <motion.div
-          variants={fadeUp}
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: '-80px' }}
-          className="text-center mb-16"
-        >
-          <p className="text-purple-400 font-semibold text-xs tracking-[0.25em] uppercase mb-3">{t.about.eyebrow}</p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">{t.about.title}</h2>
-          <div className="h-1 w-16 mx-auto rounded-full bg-gradient-to-r from-purple-500 to-cyan-500" />
-        </motion.div>
-
-        <div className="grid lg:grid-cols-2 gap-14 lg:gap-20 items-center">
-          {/* ── Photo ── */}
-          <motion.div
-            variants={fadeLeft}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-80px' }}
-            className="flex justify-center lg:justify-start"
-          >
-            <div className="relative">
-              {/* Glow ring */}
-              <div className="absolute -inset-[2px] rounded-2xl bg-gradient-to-br from-purple-500 via-cyan-500 to-pink-500 opacity-70 blur-[2px]" />
-              {/* Photo */}
-              <div className="relative w-72 h-80 sm:w-80 sm:h-96 rounded-2xl overflow-hidden bg-[#0f0f1f]">
-                <img
-                  src="./images/pic_1.jpg"
-                  alt="Szakacs Barna"
-                  className="w-full h-full object-cover object-top"
-                  onError={(e) => { e.target.style.display = 'none' }}
-                />
-                {/* Subtle overlay gradient */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-              </div>
-
-              {/* Floating badge */}
-              <motion.div
-                animate={{ y: [0, -6, 0] }}
-                transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
-                className="absolute -bottom-5 -right-5 glass rounded-2xl px-4 py-2.5 border border-white/10 shadow-xl shadow-black/30"
-              >
-                <div className="flex items-center gap-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span className="text-sm font-semibold text-white whitespace-nowrap">{t.about.available}</span>
-                </div>
-              </motion.div>
-            </div>
-          </motion.div>
-
-          {/* ── Text ── */}
-          <motion.div
-            variants={fadeRight}
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: '-80px' }}
-            className="space-y-7"
-          >
-            <div className="space-y-4 text-slate-300 leading-relaxed text-[15px]">
-              <p>
-                {t.about.paragraphs[0]}
-              </p>
-              <p>
-                {t.about.paragraphs[1]}
-              </p>
-            </div>
-
-            {/* Info pills */}
-            <div className="flex flex-wrap gap-2">
-              {[
-                { icon: <MapPin size={13} className="text-purple-400" />,      text: t.about.pills[0] },
-                { icon: <GraduationCap size={13} className="text-cyan-400" />, text: t.about.pills[1] },
-                { icon: <Globe size={13} className="text-pink-400" />,         text: t.about.pills[2] },
-              ].map(({ icon, text }) => (
-                <div key={text} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg glass text-slate-300 text-xs font-medium">
-                  {icon}
-                  {text}
-                </div>
-              ))}
-            </div>
-
-            {/* Languages */}
-            <div>
-              <p className="text-slate-500 text-xs font-semibold uppercase tracking-widest mb-3">{t.about.languages}</p>
-              <div className="flex flex-wrap gap-2">
-                {t.about.languageLevels.map(([lang, level]) => (
-                  <span
-                    key={lang}
-                    className="px-3 py-1.5 rounded-full text-xs font-medium bg-white/[0.05] border border-white/10 text-slate-300"
-                  >
-                    {lang}{' '}
-                    <span className="text-purple-400">— {level}</span>
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-4">
-                {t.about.stats.map(([value, label]) => (
-                <div
+          <div className="mt-8 grid grid-cols-3 gap-3">
+            {t.about.stats.map(([value, label], i) => {
+              const Icon = statIcons[i]
+              return (
+                <motion.div
                   key={label}
-                  className="glass rounded-2xl p-4 text-center border border-white/[0.06] hover:border-purple-500/30 transition-all duration-300"
+                  initial={{ opacity: 0, y: 24, scale: 0.92 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, margin: '-40px' }}
+                  transition={{ duration: 0.6, delay: i * 0.1, ease: 'easeOut' }}
+                  className="glass-card p-4 text-center"
                 >
-                  <p className="text-2xl sm:text-3xl font-black gradient-text-purple-cyan mb-1">{value}</p>
-                  <p className="text-slate-500 text-[11px] font-medium">{label}</p>
-                </div>
+                  <span className="mx-auto mb-3 grid h-9 w-9 place-items-center rounded-xl bg-blue-100 text-blue-600">
+                    <Icon size={17} />
+                  </span>
+                  <p className="gradient-text text-2xl font-extrabold leading-none sm:text-3xl">
+                    <CountUp value={value} />
+                  </p>
+                  <p className="mt-2 text-[11px] font-semibold leading-snug text-slate-500">{label}</p>
+                </motion.div>
+              )
+            })}
+          </div>
+        </div>
+
+        {/* Right */}
+        <motion.div
+          initial={{ opacity: 0, x: 40 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true, margin: '-80px' }}
+          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="space-y-6 lg:col-span-7"
+        >
+          <div className="space-y-4 text-[15px] leading-relaxed text-slate-600">
+            <p>{t.about.paragraphs[0]}</p>
+            <p>{t.about.paragraphs[1]}</p>
+          </div>
+
+          <div className="flex flex-wrap gap-2">
+            {pillIcons.map(({ Icon, color }, i) => (
+              <span key={i} className="chip gap-1.5 !px-3.5 !py-1.5 !text-xs">
+                <Icon size={13} className={color} />
+                {t.about.pills[i]}
+              </span>
+            ))}
+          </div>
+
+          <div>
+            <p className="mb-3 text-[11px] font-bold uppercase tracking-[0.22em] text-slate-400">{t.about.languages}</p>
+            <div className="flex flex-wrap gap-2">
+              {t.about.languageLevels.map(([lang, level]) => (
+                <span key={lang} className="chip !px-3.5 !py-1.5 !text-xs">
+                  {lang}
+                  <span className="ml-1.5 text-blue-600">{level}</span>
+                </span>
               ))}
             </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
-    </section>
+    </ScrollPanel>
   )
 }

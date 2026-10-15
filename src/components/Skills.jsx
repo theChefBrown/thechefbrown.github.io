@@ -1,35 +1,34 @@
-import { motion } from 'framer-motion'
+import { useRef } from 'react'
+import { motion, useScroll, useTransform, useReducedMotion } from 'framer-motion'
+import { Layout, ShoppingBag, Database, Wrench, Briefcase, Rocket } from 'lucide-react'
 import { useLanguage } from '../i18n'
+import ScrollPanel from './ScrollPanel'
+import SectionHeading from './SectionHeading'
 
 const categories = [
   {
-    title: 'Frontend',
-    gradient: 'from-purple-500 to-indigo-500',
-    glow: 'rgba(139,92,246,0.25)',
+    icon: Layout,
+    tile: 'bg-blue-100 text-blue-600',
     skills: ['HTML5', 'CSS3', 'JavaScript (ES6+)', 'jQuery', 'React', 'Tailwind CSS', 'Bootstrap'],
   },
   {
-    title: 'Shopify & E-commerce',
-    gradient: 'from-emerald-500 to-teal-500',
-    glow: 'rgba(16,185,129,0.25)',
+    icon: ShoppingBag,
+    tile: 'bg-sky-100 text-sky-600',
     skills: ['Shopify Liquid', 'Theme Development', 'Custom Sections', 'E-commerce UX'],
   },
   {
-    title: 'Backend & Data',
-    gradient: 'from-orange-500 to-red-500',
-    glow: 'rgba(249,115,22,0.25)',
+    icon: Database,
+    tile: 'bg-indigo-100 text-indigo-600',
     skills: ['Node.js', 'Express.js', 'PHP', 'MySQL', 'PostgreSQL', 'Supabase', 'REST APIs'],
   },
   {
-    title: 'Engineering Tools',
-    gradient: 'from-cyan-500 to-blue-500',
-    glow: 'rgba(6,182,212,0.25)',
+    icon: Wrench,
+    tile: 'bg-cyan-100 text-cyan-600',
     skills: ['TypeScript', 'Git', 'GitHub', 'Docker', 'Vite', 'Vercel', 'JSON'],
   },
   {
-    title: 'Business Applications',
-    gradient: 'from-pink-500 to-rose-500',
-    glow: 'rgba(236,72,153,0.25)',
+    icon: Briefcase,
+    tile: 'bg-violet-100 text-violet-600',
     skills: [
       'Role-Based Access',
       'Workflow Management',
@@ -40,74 +39,83 @@ const categories = [
     ],
   },
   {
-    title: 'Application Delivery',
-    gradient: 'from-yellow-500 to-orange-500',
-    glow: 'rgba(234,179,8,0.25)',
+    icon: Rocket,
+    tile: 'bg-teal-100 text-teal-600',
     skills: ['Responsive UI', 'API Integration', 'Data Visualisation', 'Performance Optimisation', 'Accessibility'],
   },
 ]
 
+const rowA = ['React', 'TypeScript', 'Next.js', 'Node.js', 'Express', 'Laravel', 'PHP', 'MySQL', 'PostgreSQL']
+const rowB = ['Supabase', 'Tailwind CSS', 'Shopify Liquid', 'WordPress', 'Docker', 'Git', 'Vite', 'Vercel', 'REST APIs']
+
+function TickerRow({ items, x }) {
+  return (
+    <motion.div style={{ x }} className="flex w-max gap-3">
+      {[...items, ...items].map((name, i) => (
+        <span
+          key={i}
+          className="glass-card flex items-center gap-2.5 !rounded-2xl px-5 py-3 text-sm font-bold text-slate-700"
+        >
+          <span className="h-2 w-2 rounded-full bg-gradient-to-br from-indigo-500 to-sky-400" />
+          {name}
+        </span>
+      ))}
+    </motion.div>
+  )
+}
+
 export default function Skills() {
   const { t } = useLanguage()
+  const reduce = useReducedMotion()
+  const tickerRef = useRef(null)
+  const { scrollYProgress } = useScroll({ target: tickerRef, offset: ['start end', 'end start'] })
+  const xForward = useTransform(scrollYProgress, [0, 1], ['0%', reduce ? '0%' : '-35%'])
+  const xBack = useTransform(scrollYProgress, [0, 1], [reduce ? '0%' : '-35%', '0%'])
 
   return (
-    <section id="skills" className="relative section-padding overflow-hidden">
-      {/* Ambient */}
-      <div className="absolute bottom-0 left-1/4 w-[450px] h-[450px] bg-pink-600/8 rounded-full blur-[130px] pointer-events-none" />
+    <ScrollPanel id="skills" className="p-6 sm:p-10 lg:p-14">
+      <SectionHeading eyebrow={t.skills.eyebrow} title={t.skills.title} className="mb-10" />
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-80px' }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16"
-        >
-          <p className="text-pink-400 font-semibold text-xs tracking-[0.25em] uppercase mb-3">{t.skills.eyebrow}</p>
-          <h2 className="text-4xl sm:text-5xl font-bold text-white mb-4">{t.skills.title}</h2>
-          <div className="h-1 w-16 mx-auto rounded-full bg-gradient-to-r from-pink-500 to-purple-500" />
-        </motion.div>
-
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-          {categories.map((cat, i) => (
-            <motion.div
-              key={i}
-              initial={{ opacity: 0, y: 40 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: '-60px' }}
-              transition={{ duration: 0.6, delay: i * 0.08, ease: 'easeOut' }}
-              className="glass rounded-2xl p-6 border border-white/[0.06] hover:border-white/[0.14] transition-all duration-400 hover:-translate-y-1 group"
-              style={{ '--glow': cat.glow }}
-            >
-              {/* Category header */}
-              <div className="flex items-center gap-3 mb-5">
-                <div
-                  className={`w-9 h-9 rounded-xl bg-gradient-to-br ${cat.gradient} flex items-center justify-center shrink-0 shadow-lg group-hover:scale-110 transition-transform duration-300`}
-                  style={{ boxShadow: `0 4px 20px ${cat.glow}` }}
-                >
-                  <div className="w-3 h-3 bg-white/90 rounded-sm" />
-                </div>
-                <h3 className={`font-bold text-sm bg-gradient-to-r ${cat.gradient} bg-clip-text text-transparent`}>
-                  {t.skills.categories[i]}
-                </h3>
-              </div>
-
-              {/* Skill pills */}
-              <div className="flex flex-wrap gap-2">
-                {cat.skills.map((skill) => (
-                  <span
-                    key={skill}
-                    className="text-[11px] font-medium px-3 py-1.5 rounded-full bg-white/[0.05] border border-white/[0.08] text-slate-300 hover:bg-white/[0.10] hover:text-white transition-colors duration-200 cursor-default"
-                  >
-                    {skill}
-                  </span>
-                ))}
-              </div>
-            </motion.div>
-          ))}
-        </div>
+      <div
+        ref={tickerRef}
+        className="-mx-6 mb-10 space-y-3 overflow-hidden py-2 sm:-mx-10 lg:-mx-14"
+        style={{
+          WebkitMaskImage: 'linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)',
+          maskImage: 'linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent)',
+        }}
+      >
+        <TickerRow items={rowA} x={xForward} />
+        <TickerRow items={rowB} x={xBack} />
       </div>
-    </section>
+
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {categories.map(({ icon: Icon, tile, skills }, i) => (
+          <motion.div
+            key={i}
+            initial={{ opacity: 0, y: 36, rotateX: reduce ? 0 : 12, scale: reduce ? 1 : 0.95 }}
+            whileInView={{ opacity: 1, y: 0, rotateX: 0, scale: 1 }}
+            viewport={{ once: true, margin: '-50px' }}
+            transition={{ duration: 0.7, delay: (i % 3) * 0.1, ease: 'easeOut' }}
+            whileHover={{ y: -4 }}
+            style={{ transformPerspective: 1000 }}
+            className="glass-card p-6"
+          >
+            <div className="mb-5 flex items-center gap-3">
+              <span className={`grid h-10 w-10 place-items-center rounded-xl ${tile}`}>
+                <Icon size={18} />
+              </span>
+              <h3 className="text-sm font-extrabold text-[#0b1220]">{t.skills.categories[i]}</h3>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {skills.map((skill) => (
+                <span key={skill} className="chip cursor-default transition-colors hover:text-blue-700">
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </motion.div>
+        ))}
+      </div>
+    </ScrollPanel>
   )
 }
